@@ -1,0 +1,108 @@
+m255
+K4
+z2
+!s12c _opt
+Z0 !s99 nomlopt
+!s11e vcom 2023.3 2023.07, Jul 17 2023
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dF:/IntelFPGA/Questa
+T_opt
+!s110 1728401550
+V2RS?jYI0jc]=>OIiFkMeo0
+04 10 4 work andgate_tb test 1
+=1-9c6b00199189-6705508e-1bd-2320
+R0
+!s12b OEM100
+!s124 OEM10U2 
+o-quiet -auto_acc_if_foreign -work cpu_design +acc
+tCvgOpt 0
+n@_opt
+OL;O;2023.3;77
+Eand_gate
+Z1 w1728401527
+Z2 DPx3 std 6 textio 0 22 LS[?81n5ZHWBI9JkBZTV<2
+Z3 DPx4 ieee 14 std_logic_1164 0 22 6<US`=mgl_dFdCEFF7J=m1
+!i122 2
+Z4 dC:/cpu-design
+Z5 8C:/cpu-design/AND_gate.vhdl
+Z6 FC:/cpu-design/AND_gate.vhdl
+l0
+L4 1
+V[T>E77HK=F9DQeVMM7ZSB1
+!s100 aLiz[JM^F^OIJHAU6dUL`1
+Z7 OL;C;2023.3;77
+32
+Z8 !s110 1728401537
+!i10b 1
+Z9 !s108 1728401537.000000
+Z10 !s90 -reportprogress|300|-work|cpu_design|-2002|-explicit|-vopt|-stats=none|C:/cpu-design/AND_gate.vhdl|
+Z11 !s107 C:/cpu-design/AND_gate.vhdl|
+!i113 0
+Z12 o-work cpu_design -2002 -explicit
+Z13 tExplicit 1 CvgOpt 0
+Artl
+R2
+R3
+DEx4 work 8 and_gate 0 22 [T>E77HK=F9DQeVMM7ZSB1
+!i122 2
+l14
+L12 6
+VT;Ok1BM@W[1O3:0?hXiBD1
+!s100 3:k]07^[TQhJjJIEXLA0F1
+R7
+32
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 0
+R12
+R13
+Eandgate_tb
+Z14 w1728401486
+R2
+R3
+!i122 3
+R4
+Z15 8C:/cpu-design/testbench_andgate.vhdl
+Z16 FC:/cpu-design/testbench_andgate.vhdl
+l0
+L5 1
+VcbSFIf7i<kAbT>CGMmOFh3
+!s100 B8[n6dW_?S?=cEjmjQ;[i1
+R7
+32
+R8
+!i10b 1
+R9
+Z17 !s90 -reportprogress|300|-work|cpu_design|-2002|-explicit|-vopt|-stats=none|C:/cpu-design/testbench_andgate.vhdl|
+Z18 !s107 C:/cpu-design/testbench_andgate.vhdl|
+!i113 0
+R12
+R13
+Atest
+DEx10 cpu_design 8 and_gate 0 22 [T>E77HK=F9DQeVMM7ZSB1
+R2
+R3
+DEx4 work 10 andgate_tb 0 22 cbSFIf7i<kAbT>CGMmOFh3
+!i122 3
+l15
+L8 34
+VhNeI?cYnnZ97Ig5JWbd=Y2
+!s100 GKm@2Z93J=>>K?B7K3j9i3
+R7
+32
+R8
+!i10b 1
+R9
+R17
+R18
+!i113 0
+R12
+R13
