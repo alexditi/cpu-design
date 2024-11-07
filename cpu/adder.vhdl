@@ -7,6 +7,8 @@ entity adder is
 	);
 
 	port(
+	sub		: in std_logic := '0';
+
 	inputA		: in std_logic_vector(N - 1 downto 0);
 	inputB		: in std_logic_vector(N - 1 downto 0);
 	cIn		: in std_logic;
@@ -21,14 +23,20 @@ architecture rtl of adder is
 
 	-- Carry zwischen den einzelnen Addierern
 	signal c	: std_logic_vector(N downto 0);
+	signal inB	: std_logic_vector(N - 1 downto 0);
 
 begin
 
 	-- cin beschreiben
-	c(0) <= cIn;
+	c(0) <= cIn xor sub;
 
 	-- cout beschreiben
-	cOut <= c(N);
+	cOut <= c(N) xor sub;
+
+	-- intputB invertieren bei sub
+	generate_inv: for i in 0 to N - 1 generate
+		inB(i) <= inputB(i) xor sub;
+	end generate generate_inv;
 
 	-- N Volladdierer verketten und dabei c(i+1) beschreiben (=> cin für nächsten Addierer)
 	generate_adder: for i in 0 to N - 1 generate

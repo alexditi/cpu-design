@@ -41,7 +41,7 @@ begin
 		B <= 11;
 		wait for 200 ns;
 		A <= 200;
-		B <= 55;
+		B <= 56;
 		wait for 200 ns;
 		A <= -5;
 		B <= -13;
