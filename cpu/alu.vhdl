@@ -9,7 +9,7 @@ entity alu is
 	);
 
 	port(
-	carryIn		: in std_logic;				-- Carry In von Control Unit für addc oder subc Befehl
+	carryIn		: in std_logic;				-- Carry in von Status Flag Register
 	operand1	: in std_logic_vector(N - 1 downto 0);
 	operand2	: in std_logic_vector(N - 1 downto 0);
 	operation	: in std_logic_vector(3 downto 0);
@@ -41,17 +41,18 @@ architecture rtl of alu is
 	signal adderSub	: std_logic;
 
 	-- Operation outputs
-	signal adder_out: std_logic_vector(N - 1 downto 0);
-	signal and_out	: std_logic_vector(N - 1 downto 0);
-	signal or_out	: std_logic_vector(N - 1 downto 0);
-	signal xor_out	: std_logic_vector(N - 1 downto 0);
-	signal not_out	: std_logic_vector(N - 1 downto 0);
-	signal sll_out	: std_logic_vector(N - 1 downto 0);
-	signal slr_out	: std_logic_vector(N - 1 downto 0);
+	signal adderOut: std_logic_vector(N - 1 downto 0);
+	signal andOut	: std_logic_vector(N - 1 downto 0);
+	signal orOut	: std_logic_vector(N - 1 downto 0);
+	signal xorOut	: std_logic_vector(N - 1 downto 0);
+	signal notOut	: std_logic_vector(N - 1 downto 0);
+	signal sllOut	: std_logic_vector(N - 1 downto 0);
+	signal slrOut	: std_logic_vector(N - 1 downto 0);
+	signal result_buf:std_logic_vector(N - 1 downto 0);
 
 	-- Operation carry
-	signal sll_carry : std_logic;
-	signal adder_carry: std_logic;
+	signal sllCarry : std_logic;
+	signal adderCarry: std_logic;
 
 	-- ALU Flags
 	signal carryOut	: std_logic := '0';
@@ -79,46 +80,54 @@ begin
 			inputA => adderIn1,
 			inputB => adderIn2,
 			cIn => adderCin,
-			output => adder_out,
-			cOut => adder_carry
+			output => adderOut,
+			cOut => adderCarry,
+			overflow => overflow,
+			sign => sign
 		);
 
 	-- and
-	and_out <= operand1 and operand2;
+	andOut <= operand1 and operand2;
 
 	-- or
-	or_out <= operand1 or operand2;
+	orOut <= operand1 or operand2;
 
 	-- xor
-	xor_out <= operand1 xor operand2;
+	xorOut <= operand1 xor operand2;
 
 	-- not
-	not_out <= not operand1;
+	notOut <= not operand1;
 
 	-- sll
-	sll_carry <= operand1(N - 1);
-	sll_out(0) <= '0';
+	sllCarry <= operand1(N - 1);
+	sllOut(0) <= '0';
 	generate_sll: for i in N - 2 downto 0 generate
-		sll_out(i + 1) <= operand1(i);
+		sllOut(i + 1) <= operand1(i);
 	end generate generate_sll;
 
 	-- slr
-	slr_out(N - 1) <= '0';
+	slrOut(N - 1) <= '0';
 	generate_slr: for i in 0 to N - 2 generate
-		slr_out(i) <= operand1(i + 1);
+		slrOut(i) <= operand1(i + 1);
 	end generate generate_slr;
 
 	-- Outputs der ALU beschreiben
-	result <= operand2 when operation = "0000" else
-		  adder_out when (operation ="0001" or operation = "0010" or operation ="0011" or operation = "0100" or operation = "0101" or operation = "0110") else
-		  and_out when operation = "0111" else
-		  or_out when operation = "1000" else
-		  xor_out when operation = "1001" else
-		  not_out when operation = "1010" else
-		  sll_out when operation = "1011" else
-		  slr_out when operation = "1100";
+	result_buf <= operand2 when operation = "0000" else		-- nop => Operand 2 ausgeben (Rs)
+		      adderOut when (operation ="0001" or operation = "0010" or operation ="0011" or operation = "0100" or operation = "0101" or operation = "0110") else
+		      andOut when operation = "0111" else
+		      orOut when operation = "1000" else
+		      xorOut when operation = "1001" else
+		      notOut when operation = "1010" else
+		      sllOut when operation = "1011" else
+		      slrOut when operation = "1100";
+	result <= result_buf;
 
 	-- Flags der ALU generieren
+	-- overflow und sign kommen vom Addierer
+	carryOut <= sllCarry when operation = "1011" else	-- when SLL, dann sllCarry. Sonst Carry von Addierer
+		    adderCarry;
+	negative <= result_buf(N - 1);
+	zero <= not (or result_buf);
 
 	-- Flags beschreiben
 	flags(0) <= carryOut;
