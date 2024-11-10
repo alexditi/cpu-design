@@ -25,7 +25,7 @@ begin
 	latch_register : process(clk)
 	begin
 
-	if clr = '0' then
+	if clr = '1' then
 		dataOut <= (others => '0');
 	elsif rising_edge(clk) then
 		if dataWrite = '1' then

@@ -10,7 +10,6 @@ architecture tb of register_tb is
 	signal clk	: std_logic := '0';
 	signal clr	: std_logic := '0';
 	signal load	: std_logic := '0';
-	signal Data	: integer := 0;
 	signal DataIn	: std_logic_vector(7 downto 0);
 	signal DataOut	: std_logic_vector(7 downto 0);
 
@@ -27,19 +26,37 @@ begin
 		
 		);
 
-	-- Convert ALU inputs
-	DataIn <= std_logic_vector(to_signed(Data, 8));
+	-- Generate clock signal
+	clock:
+	process begin
+		wait for 50 ns;
+		clk <= not clk;
+	end process clock;
 
 	-- Generate test stimulus
 	stimulus:
 	process begin
 
-		-- Generate Clock
-		clk <= not clk after 50 ns;
-
 		-- Generate Input for Register
 		wait for 25 ns;
-		
+
+		DataIn <= "10100101";
+		load <= '1';
+		wait for 100 ns;
+
+		DataIn <= "11110000";
+		load <= '0';
+		wait for 100 ns;
+
+		clr <= '1';
+		wait for 100 ns;
+
+		clr <= '0';
+		load <= '1';
+		wait for 100 ns;
+
+		load <= '0';
+		dataIn <= "00000000";
 
 		wait;
 	end process stimulus;
