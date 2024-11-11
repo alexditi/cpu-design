@@ -75,6 +75,7 @@ begin
 
 	-- adder operations
 	adder: entity cpu_design.adder(rtl)
+		generic map ( N => N )
 		port map (
 			sub => adderSub,
 			inputA => adderIn1,
