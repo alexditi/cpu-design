@@ -30,7 +30,7 @@ architecture rtl of register_file is
 
 	type DataArray is array(0 to rCount - 1) of std_logic_vector(N - 1 downto 0);
 
-	signal rWriteBuf: std_logic_vector(rCount - 1 downto 0);
+	signal rWriteBuf: std_logic_vector(0 to rCount - 1);
 	signal Data	: DataArray;
 
 begin
@@ -38,12 +38,15 @@ begin
 	-- Write Signal generieren
 	write_signal: process(Rd)
 	begin
-	for i in 0 to rCount - 1 loop
-		rWriteBuf(i) <= '1' when (i = Rd) else '0';
-	end loop;
+		rWriteBuf <= (others => '0');
+		rWriteBuf(Rd) <= '1';
 	end process;
 
 	-- Ausgaben generieren
+	OP1 <= Data(Rd);
+	OP2 <= Data(Rs);
+	r6 <= Data(6);
+	r7 <= Data(7); 
 
 	-- Einzelne Register instanzieren
 	generate_file: for i in 0 to rCount - 1 generate
