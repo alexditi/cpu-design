@@ -1,0 +1,15 @@
+PS	Instruction
+0	nop
+1	nop
+2	jpa 11
+...
+12	nop
+13	bra -6
+...
+7	nop
+8	jsr 0x3E
+...
+0x3E	nop
+0x3F	ret
+...
+9	nop

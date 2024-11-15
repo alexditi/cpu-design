@@ -36,10 +36,12 @@ architecture rtl of register_file is
 begin
 
 	-- Write Signal generieren
-	write_signal: process(Rd)
+	write_signal: process(Rd, rWrite)
 	begin
 		rWriteBuf <= (others => '0');
-		rWriteBuf(Rd) <= '1';
+		if rWrite = '1' then
+			rWriteBuf(Rd) <= '1';
+		end if;
 	end process;
 
 	-- Ausgaben generieren

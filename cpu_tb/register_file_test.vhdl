@@ -53,7 +53,7 @@ begin
 		load <= '0';
 		dataIn <= (others => '0');
 
-		for i in 0 to 7 loop
+		for i in 0 to 6 loop
 			Rd <= i;
 			Rs <= i + 1;
 			wait for 100 ns;
