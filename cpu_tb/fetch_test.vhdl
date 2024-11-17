@@ -69,11 +69,11 @@ begin
 	-- Generate test stimulus
 	stimulus:
 	process begin
-		wait for clkPeriod * 0.51;
+		wait for clkPeriod * 0.45;
 
 		-- reset
 		rst <= '1';
-		wait for clkPeriod;
+		wait for clkPeriod * 0.1;
 		rst <= '0';
 
 		-- Normale Instruktion: PC ausgeben und erhöhen
