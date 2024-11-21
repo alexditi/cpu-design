@@ -58,6 +58,8 @@ architecture rtl of fetch is
 	signal AddrOutputBuffer	: std_logic_vector(N - 1 downto 0);
 	signal OutputBufferRout	: std_logic_vector(N - 1 downto 0);
 
+	signal MARclk		: std_logic;
+
 begin
 
 	-- Instruction Bypass
@@ -68,7 +70,18 @@ begin
 		     OffsetAddr when PrStrAddrSel = "01" else
 		     PCout when PrStrAddrSel = "10" else
 		     AddrIn when PrStrAddrSel = "11";
-	PrStrAddrIn <= PrStrAddr;
+
+	-- Address Register
+	MARclk <= not clk;
+	memory_address_register: entity cpu_design.reg(rtl)
+		generic map ( N => InstAddrWidth )
+		port map (
+		clk => MARclk,
+		clr => rst,
+		dataWrite => '1',
+		dataIn => PrStrAddr,
+		dataOut => PrStrAddrIn
+		);
 
 	-- Calculate Offset Address
 	OffsetBuf1(InstAddrWidth - 1 downto 5) <= (others => OffsetIn(4));
