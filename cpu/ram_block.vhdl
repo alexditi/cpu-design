@@ -6,24 +6,25 @@ entity ram_block is
 
 	generic (
 	DataWidth	: integer := 8;	-- Datenbreite RAM
-	AddrWidth	: integer := 12	-- Adressbreite RAM
+	AddrWidth	: integer := 12;-- Adressbreite RAM
+	initPS		: std_logic := '0' -- Programmspeicher mit Initialisierungswerten beschreiben
 	);
 
 	port (
 
 	-- CPU Reset
-	rst		: in std_logic;
+	rst		: in std_logic := '0';
 
 	-- Clock
-	clk		: in std_logic;
+	clk		: in std_logic := '0';
 
 	-- Steuersignal
-	WriteEn		: in std_logic;
+	WriteEn		: in std_logic := '0';
 
 	-- Interface
-	AddrIn		: in std_logic_vector(AddrWidth - 1 downto 0);
-	DataIn		: in std_logic_vector(DataWidth - 1 downto 0);
-	DataOut		: out std_logic_vector(DataWidth - 1 downto 0)
+	AddrIn		: in std_logic_vector(AddrWidth - 1 downto 0) := (others => '0');
+	DataIn		: in std_logic_vector(DataWidth - 1 downto 0) := (others => '0');
+	DataOut		: out std_logic_vector(DataWidth - 1 downto 0) := (others => '0')
 
 	);
 
@@ -46,6 +47,16 @@ begin
 		if rising_edge(clk) then
 			if WriteEn = '1' then
 				ram(Addr) <= DataIn;
+			elsif rst = '1' and initPS = '1' then
+				ram <= (others => (others => '0'));
+				ram(0) <= X"A005";
+				ram(1) <= X"6900";
+				ram(2) <= X"97F0";
+				ram(3) <= X"9AFE";
+				ram(4) <= X"0801";
+				ram(5) <= X"1902";
+				ram(6) <= X"2A00";
+				ram(7) <= X"3000";
 			end if;
 		end if;
 	end process ram_process;

@@ -31,7 +31,7 @@ entity execute is
 	SCRin		: in std_logic_vector(N - 1 downto 0);
 
 	-- Interface RAM Writeback
-	PageOut		: out std_logic_vector(DataAddrWidth - N - 1 downto 0);
+	PageOut		: out std_logic_vector(N - 1 downto 0);
 	AddressOut	: out std_logic_vector(N - 1 downto 0);
 	DataOut		: out std_logic_vector(N - 1 downto 0);
 	DataIn		: in std_logic_vector(N - 1 downto 0);
@@ -60,9 +60,6 @@ begin
 			 SCRin when RegFileDataSel = "10" else
 			 ALUout when RegFileDataSel = "11";
 
-	-- Datenbreite r6 an Datenbreite Page Register anpassen
-	PageOut <= r6Buf(DataAddrWidth - N - 1 downto 0);
-
 	-- Control Bits ausgeben an Control Logic
 	CBout <= ALUout(N - 1 downto 5);
 
@@ -87,7 +84,7 @@ begin
 
 		OP1 => ALUoperand1,
 		OP2 => ALUoperand2,
-		r6 => r6Buf,
+		r6 => PageOut,
 		r7 => AddressOut
 		);
 
