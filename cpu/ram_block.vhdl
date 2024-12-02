@@ -7,7 +7,8 @@ entity ram_block is
 	generic (
 	DataWidth	: integer := 8;	-- Datenbreite RAM
 	AddrWidth	: integer := 12;-- Adressbreite RAM
-	initPS		: std_logic := '0' -- Programmspeicher mit Initialisierungswerten beschreiben
+	initPS		: std_logic := '0';-- Programmspeicher mit Initialisierungswerten beschreiben
+	ProgrammNo	: integer := 1	-- Testprogrammnummer
 	);
 
 	port (
@@ -48,15 +49,28 @@ begin
 			if WriteEn = '1' then
 				ram(Addr) <= DataIn;
 			elsif rst = '1' and initPS = '1' then
+
+				-- Programmspeicher mit Programm initialisieren
 				ram <= (others => (others => '0'));
-				ram(0) <= X"A005";
-				ram(1) <= X"6900";
-				ram(2) <= X"97F0";
-				ram(3) <= X"9AFE";
-				ram(4) <= X"0801";
-				ram(5) <= X"1902";
-				ram(6) <= X"2A00";
-				ram(7) <= X"3000";
+
+				if ProgrammNo = 1 then
+					ram(0) <= X"A005";
+					ram(1) <= X"6900";
+					ram(2) <= X"97F0";
+					ram(3) <= X"9AFE";
+					ram(4) <= X"0801";
+					ram(5) <= X"1902";
+					ram(6) <= X"2A00";
+					ram(7) <= X"3000";
+				elsif ProgrammNo = 2 then
+					ram(0) <= X"A0FF";
+					ram(1) <= X"A10C";
+					ram(2) <= X"A2F0";
+					ram(3) <= X"A300";
+					ram(4) <= X"0802";
+					ram(5) <= X"1103";
+				end if;
+
 			end if;
 		end if;
 	end process ram_process;

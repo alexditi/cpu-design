@@ -11,7 +11,10 @@ entity cpu_control_simulation is
 	InstWidth	: integer := 16;-- Befehlsbreite
 	InstAddrWidth	: integer := 11;-- Adressbreite Programmspeicher
 	OpcodeSize	: integer := 5;	-- Breite Opcode im Befehl
-	rCount		: integer := 8	-- Registeranzahl Registerfile
+	rCount		: integer := 8;	-- Registeranzahl Registerfile
+
+	-- Debug
+	ProgrammNo	: integer := 1	-- Testprogrammnummer
 	);
 
 	-- Simulation der Control Logic
@@ -104,7 +107,8 @@ begin
 		generic map (
 		DataWidth => InstWidth,
 		AddrWidth => InstAddrWidth,
-		initPS => '1'
+		initPS => '1',
+		ProgrammNo => ProgrammNo
 		)
 		port map (
 		rst => rst,

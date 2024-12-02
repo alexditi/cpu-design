@@ -3,10 +3,10 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 library cpu_design;
 
-entity cpu_control_simulation_tb is
-end entity cpu_control_simulation_tb;
+entity cpu_control_simulation_tb_1 is
+end entity cpu_control_simulation_tb_1;
 
-architecture tb of cpu_control_simulation_tb is
+architecture tb of cpu_control_simulation_tb_1 is
 
 	constant clkPeriod	: time := 100 ns;
 
@@ -21,7 +21,7 @@ architecture tb of cpu_control_simulation_tb is
 	signal PCselOutBuf	: std_logic := '0';
 	signal IRload		: std_logic := '0';
 	signal RegFileLoad	: std_logic := '0';
-	signal AluOpSel	: std_logic_vector(3 downto 0) := "0000";
+	signal AluOpSel		: std_logic_vector(3 downto 0) := "0000";
 	signal RegFIleDataSel	: std_logic_vector(1 downto 0) := "00";
 	signal SPinc		: std_logic := '0';
 	signal SPdec		: std_logic := '0';
@@ -30,7 +30,7 @@ architecture tb of cpu_control_simulation_tb is
 	signal DataStrLoad	: std_logic := '0';
 
 	-- Decode
-	signal OpcodeIn	: std_logic_vector(4 downto 0) := "00000";
+	signal OpcodeIn		: std_logic_vector(4 downto 0) := "00000";
 	signal ConditionIn	: std_logic_vector(2 downto 0) := "000";
 	signal ConditionSign	: std_logic := '0';
 
@@ -51,7 +51,10 @@ begin
 		InstWidth => 16,		-- Befehlsbreite
 		InstAddrWidth => 11,		-- Adressbreite Programmspeicher
 		OpcodeSize => 5,		-- Breite Opcode im Befehl
-		rCount => 8			-- Registeranzahl Registerfile
+		rCount => 8,			-- Registeranzahl Registerfile
+
+		-- Testprogrammnummer
+		ProgrammNo => 1
 		)
 		port map (
 
