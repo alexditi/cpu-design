@@ -47,7 +47,7 @@ architecture rtl of cpu is
 	-- Steuersignale Execute
 	signal RegFileLoad	: std_logic;
 	signal AluOpSel		: std_logic_vector(3 downto 0);
-	signal RegFIleDataSel	: std_logic_vector(1 downto 0);
+	signal RegFileDataSel	: std_logic_vector(1 downto 0);
 
 	-- Steuersignale Writeback
 	signal SPinc		: std_logic;

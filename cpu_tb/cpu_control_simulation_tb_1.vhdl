@@ -51,10 +51,7 @@ begin
 		InstWidth => 16,		-- Befehlsbreite
 		InstAddrWidth => 11,		-- Adressbreite Programmspeicher
 		OpcodeSize => 5,		-- Breite Opcode im Befehl
-		rCount => 8,			-- Registeranzahl Registerfile
-
-		-- Testprogrammnummer
-		ProgrammNo => 1
+		rCount => 8			-- Registeranzahl Registerfile
 		)
 		port map (
 

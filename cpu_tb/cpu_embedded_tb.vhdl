@@ -20,10 +20,7 @@ begin
 		N => 8,
 		DataAddrWidth => 12,
 		InstWidth => 16,
-		InstAddrWidth => 11,
-
-		-- Debugging / Simulation
-		ProgrammNo => 1
+		InstAddrWidth => 11
 		)
 		port map (
 		rst => rst,

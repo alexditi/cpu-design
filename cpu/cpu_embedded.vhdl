@@ -9,10 +9,7 @@ entity cpu_embedded is
 	N		: integer := 8;	-- Datenbreite
 	DataAddrWidth	: integer := 12;-- Adressbreite Datenspeicher
 	InstWidth	: integer := 16;-- Befehlsbreite
-	InstAddrWidth	: integer := 11;-- Adressbreite Programmspeicher
-
-	-- Debugging / Simulation
-	ProgrammNo	: integer := 1	-- Auszuführendes Programm
+	InstAddrWidth	: integer := 11	-- Adressbreite Programmspeicher
 	);
 
 	port (
@@ -63,8 +60,7 @@ begin
 		AddrWidth => InstAddrWidth,
 
 		-- Debugging / Simulation
-		initPS => '1',
-		ProgrammNo => ProgrammNo
+		initPS => '1'
 		)
 		port map (
 		rst => rst,

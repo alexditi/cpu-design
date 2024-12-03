@@ -32,7 +32,7 @@ entity control_logic is
 	-- Steuersignale Execute
 	RegFileLoad	: out std_logic;
 	AluOpSel	: out std_logic_vector(3 downto 0);
-	RegFIleDataSel	: out std_logic_vector(1 downto 0);
+	RegFileDataSel	: out std_logic_vector(1 downto 0);
 
 	-- Steuersignale Writeback
 	SPinc		: out std_logic;
@@ -71,7 +71,10 @@ architecture rtl of control_logic is
 
 	-- Status and Control Register output
 	signal Flags		: std_logic_vector(4 downto 0);
-	signal CBits		: std_logic_vector(N - 6 downto 0);
+	signal P		: std_logic;
+	signal CBits		: std_logic_vector(N - 7 downto 0);
+	signal Pload		: std_logic;
+	signal ldP		: std_logic;
 
 	-- Flags
 	alias Cbit		: std_logic is Flags(0);
@@ -129,18 +132,33 @@ begin
 		);
 	SCRout(4 downto 0) <= Flags;
 
+	-- Status and Control Register P-Bit
+	Pload <= CBin(0) when P = '0' else
+		 '0' when P = '1';
+	ldP <= SFRldCB or P;
+	SCRp: entity cpu_design.reg(rtl)
+		generic map ( N => 1)
+		port map (
+		clk => clk,
+		clr => rst,
+		dataWrite => ldP,
+		dataIn(0) => Pload,
+		dataOut(0) => P
+		);
+	SCRout(5) <= P;
+	Pbit <= P;
+
 	-- Status and Control Register Control Bits
 	SCRcb: entity cpu_design.reg(rtl)
-		generic map ( N => N - 5 )
+		generic map ( N => N - 6 )
 		port map (
 		clk => clk,
 		clr => rst,
 		dataWrite => SFRldCB,
-		dataIn => CBin,
+		dataIn => CBin(N - 6 downto 1),
 		dataOut => CBits
 		);
-	SCRout(N - 1 downto 5) <= CBits;
-	Pbit <= CBits(0);
+	SCRout(N - 1 downto 6) <= CBits;
 
 	-- Branch Condition Calculation
 	takeBranch <=	Cbit when ConditionIn = "000" else
@@ -191,7 +209,7 @@ begin
 	AluOpSel(2) <= I_subc or I_inc or I_dec or I_and or I_slr; -- NOP Default 0
 	AluOpSel(1) <= I_addc or I_sub or I_dec or I_and or I_not or I_sll; -- NOP Default 0
 	AluOpSel(0) <= I_add or I_sub or I_inc or I_and or I_xor or I_sll; -- NOP Default 0
-	RegFIleDataSel(1) <= I_add or I_addc or I_sub or I_subc or I_inc or I_dec or I_and or I_or or I_xor or I_not or I_sll or I_slr or I_mov or I_lcr; -- NOP Default 0
+	RegFileDataSel(1) <= I_add or I_addc or I_sub or I_subc or I_inc or I_dec or I_and or I_or or I_xor or I_not or I_sll or I_slr or I_mov or I_lcr; -- NOP Default 0
 	RegFileDataSel(0) <= I_add or I_addc or I_sub or I_subc or I_inc or I_dec or I_and or I_or or I_xor or I_not or I_sll or I_slr or I_mov or I_pll or I_ldz or I_ld; -- NOP Default 0
 
 	-- Writeback

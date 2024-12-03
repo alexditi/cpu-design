@@ -2,6 +2,8 @@ onerror {resume}
 quietly WaveActivateNextPane {} 0
 add wave -noupdate -expand -group {CPU Commons} /cpu_embedded_tb/clk
 add wave -noupdate -expand -group {CPU Commons} /cpu_embedded_tb/rst
+add wave -noupdate -expand -group Fetch /cpu_embedded_tb/dut/cpu/fetch/AddrInputBuffer
+add wave -noupdate -expand -group Fetch /cpu_embedded_tb/dut/cpu/fetch/input_buffer/dataOut
 add wave -noupdate -expand -group Fetch /cpu_embedded_tb/dut/cpu/fetch/PrStrAddrIn
 add wave -noupdate -expand -group Fetch /cpu_embedded_tb/dut/cpu/fetch/PrStrDataOut
 add wave -noupdate -expand -group Fetch /cpu_embedded_tb/dut/cpu/fetch/PCout
@@ -38,12 +40,24 @@ add wave -noupdate -expand -group {Control Signals} /cpu_embedded_tb/dut/cpu/con
 add wave -noupdate -expand -group {Control Signals} /cpu_embedded_tb/dut/cpu/control_logic/DataStrInSel
 add wave -noupdate -expand -group {Control Signals} /cpu_embedded_tb/dut/cpu/control_logic/DataStrLoad
 add wave -noupdate -expand -group Execute /cpu_embedded_tb/dut/cpu/execute/ALUout
+add wave -noupdate -expand -group Execute /cpu_embedded_tb/dut/cpu/execute/alu/carryOut
+add wave -noupdate -expand -group Execute /cpu_embedded_tb/dut/cpu/execute/alu/overflow
+add wave -noupdate -expand -group Execute /cpu_embedded_tb/dut/cpu/execute/alu/negative
+add wave -noupdate -expand -group Execute /cpu_embedded_tb/dut/cpu/execute/alu/sign
+add wave -noupdate -expand -group Execute /cpu_embedded_tb/dut/cpu/execute/alu/zero
 add wave -noupdate -expand -group Execute /cpu_embedded_tb/dut/cpu/execute/RegFileDataIn
 add wave -noupdate -expand -group Execute -expand /cpu_embedded_tb/dut/cpu/execute/register_file/Data
 add wave -noupdate -expand -group Writeback /cpu_embedded_tb/dut/cpu/writeback/DataStrAddressIn
 add wave -noupdate -expand -group Writeback /cpu_embedded_tb/dut/cpu/writeback/DataStrIn
 add wave -noupdate -expand -group Writeback /cpu_embedded_tb/dut/cpu/writeback/DataStrOut
+add wave -noupdate -expand -group Writeback /cpu_embedded_tb/dut/cpu/writeback/stackpointer/SP
 add wave -noupdate -expand -group Writeback /cpu_embedded_tb/dut/data_storage/ram
+add wave -noupdate -expand -group Writeback /cpu_embedded_tb/dut/data_storage/ram(0)
+add wave -noupdate -expand -group Writeback /cpu_embedded_tb/dut/data_storage/ram(1)
+add wave -noupdate -expand -group Writeback /cpu_embedded_tb/dut/data_storage/ram(2)
+add wave -noupdate -expand -group Writeback /cpu_embedded_tb/dut/data_storage/ram(3)
+add wave -noupdate -expand -group Writeback /cpu_embedded_tb/dut/data_storage/ram(5)
+add wave -noupdate -expand -group Writeback /cpu_embedded_tb/dut/data_storage/ram(6)
 add wave -noupdate -expand -group Writeback /cpu_embedded_tb/dut/data_storage/ram(252)
 add wave -noupdate -expand -group Writeback /cpu_embedded_tb/dut/data_storage/ram(253)
 add wave -noupdate -expand -group Writeback /cpu_embedded_tb/dut/data_storage/ram(254)
@@ -65,4 +79,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {0 ns} {1039 ns}
+WaveRestoreZoom {0 ns} {1085 ns}

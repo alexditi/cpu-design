@@ -1,14 +1,16 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use std.textio.all;
 
 entity ram_block is
 
 	generic (
 	DataWidth	: integer := 8;	-- Datenbreite RAM
 	AddrWidth	: integer := 12;-- Adressbreite RAM
-	initPS		: std_logic := '0';-- Programmspeicher mit Initialisierungswerten beschreiben
-	ProgrammNo	: integer := 1	-- Testprogrammnummer
+
+	-- Debug
+	initPS		: std_logic := '0'-- Programmspeicher mit Initialisierungswerten beschreiben
 	);
 
 	port (
@@ -33,7 +35,26 @@ end ram_block;
 
 architecture rtl of ram_block is
 
+	-- RAM Block Type
 	type ram_block_type is array(0 to 2**AddrWidth - 1) of std_logic_vector(DataWidth - 1 downto 0);
+
+	-- Function to initialize RAM from txt-File
+	impure function initRAM return ram_block_type is
+		file text_input_file	: text open read_mode is "C:\cpu-design\cpu\Program.txt";
+		variable text_line	: line;
+		variable ram_buf	: ram_block_type;
+	begin
+		ram_buf := (others => (others => '0'));
+		for i in 0 to 2**AddrWidth - 1 loop
+			if endfile(text_input_file) then
+				return ram_buf;
+			end if;
+			readline(text_input_file, text_line);
+			hread(text_line, ram_buf(i));
+		end loop;
+		return ram_buf;
+	end function;
+
 	signal ram	: ram_block_type;
 	signal Addr	: integer range 0 to 2**AddrWidth - 1;
 
@@ -49,28 +70,8 @@ begin
 			if WriteEn = '1' then
 				ram(Addr) <= DataIn;
 			elsif rst = '1' and initPS = '1' then
-
 				-- Programmspeicher mit Programm initialisieren
-				ram <= (others => (others => '0'));
-
-				if ProgrammNo = 1 then
-					ram(0) <= X"A005";
-					ram(1) <= X"6900";
-					ram(2) <= X"97F0";
-					ram(3) <= X"9AFE";
-					ram(4) <= X"0801";
-					ram(5) <= X"1902";
-					ram(6) <= X"2A00";
-					ram(7) <= X"3000";
-				elsif ProgrammNo = 2 then
-					ram(0) <= X"A0FF";
-					ram(1) <= X"A10C";
-					ram(2) <= X"A2F0";
-					ram(3) <= X"A300";
-					ram(4) <= X"0802";
-					ram(5) <= X"1103";
-				end if;
-
+				ram <= initRam;
 			end if;
 		end if;
 	end process ram_process;
