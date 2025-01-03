@@ -13,7 +13,7 @@ architecture tb of alu_tb is
 	signal A_in	: std_logic_vector(7 downto 0);
 	signal B_in	: std_logic_vector(7 downto 0);
 
-	signal operation: std_logic_vector(3 downto 0) := "0100";
+	signal operation: std_logic_vector(3 downto 0) := "0011";
 
 	signal result	: std_logic_vector(7 downto 0);
 	signal flags	: std_logic_vector(4 downto 0);

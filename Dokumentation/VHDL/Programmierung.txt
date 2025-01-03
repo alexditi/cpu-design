@@ -1,0 +1,4 @@
+Damit ein Programm auf dem Prozessor ausgeführt werden kann, muss das Programm entsprechend der 16-Bit ISA kodiert werden.
+Das Programm kann dann in hexadezimaler Schreibweise in die Textdatei "program.txt" unter cpu_tb/program.txt kopiert werden.
+WICHTIG! Jeder Befehl muss mit den führenden Nullen auf 4 Hexadezimalziffern aufgefüllt werden (z.B. 00FB anstatt FB)
+Nach einem Neustart der Simulation ist das neue Programm geladen worden.
